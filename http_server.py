@@ -1,21 +1,10 @@
-"""
-Simple HTTP Web Server (Socket-based)
-Project: Computer Networks - Socket Programming
-Course: 18B11CS311 - Computer Networks & IoT
 
-THEORY (from Kurose Ch. 2 - Application Layer):
-- HTTP = HyperText Transfer Protocol (Application Layer)
-- HTTP runs over TCP (port 80 by default, here port 8080)
-- Client sends HTTP GET request, server responds with HTTP response
-- Demonstrates: HTTP request/response, status codes (200 OK, 404 Not Found)
-- This is exactly what the lab manual's "Socket Programming Web Server: TCP" asks for!
-"""
 
 import socket
 import os
 
 HOST = '127.0.0.1'
-PORT = 8080       # HTTP usually port 80, using 8080 to avoid root permissions
+PORT = 8080      
 
 def create_sample_html():
     """Create a sample HTML file for the server to serve."""
