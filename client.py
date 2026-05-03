@@ -1,31 +1,16 @@
-"""
-TCP Multi-Client Chat Client
-Project: Computer Networks - Socket Programming
-Course: 18B11CS311 - Computer Networks & IoT
 
-THEORY:
-- Client initiates TCP connection to server (SYN packet sent first)
-- Socket API used: connect(), send(), recv()
-- Threading used so we can SEND and RECEIVE simultaneously
-- Demonstrates: Client-Server model, TCP sockets, full-duplex communication
-"""
 
 import socket
 import threading
 import sys
 
-# ─────────────────────────────────────────────
-#  CLIENT CONFIGURATION - must match server
-# ─────────────────────────────────────────────
+
 HOST = '127.0.0.1'
 PORT = 12345
 
 
 def receive_messages(client_socket):
-    """
-    Continuously receive messages from server.
-    Runs in a separate thread so we don't block sending.
-    """
+
     while True:
         try:
             message = client_socket.recv(1024).decode('utf-8')
@@ -40,11 +25,11 @@ def receive_messages(client_socket):
 
 def start_client():
     """Connect to the TCP server and start chatting."""
-    # AF_INET = IPv4, SOCK_STREAM = TCP
+   
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     try:
-        # TCP 3-Way Handshake initiated here
+       
         client_socket.connect((HOST, PORT))
         print("=" * 50)
         print(f"  CONNECTED TO CHAT SERVER at {HOST}:{PORT}")
@@ -52,12 +37,12 @@ def start_client():
         print(f"  Type '/quit' to exit")
         print("=" * 50)
 
-        # Start a thread to receive messages in background
+        
         recv_thread = threading.Thread(target=receive_messages, args=(client_socket,))
         recv_thread.daemon = True
         recv_thread.start()
 
-        # Main thread handles sending messages
+      
         while True:
             try:
                 message = input("> ")
