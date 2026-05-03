@@ -1,28 +1,15 @@
-"""
-TCP Multi-Client Chat Server
-Project: Computer Networks - Socket Programming
-Course: 18B11CS311 - Computer Networks & IoT
 
-THEORY (from Kurose & Forouzan):
-- Uses TCP (Transport Layer) for reliable, connection-oriented communication
-- TCP 3-Way Handshake: SYN → SYN-ACK → ACK establishes each client connection
-- Port 12345 is the well-known port where server listens
-- Each client gets its own thread (concurrent connections)
-- Demonstrates: Client-Server model, Sockets, TCP, Multiplexing
-"""
 
 import socket
 import threading
 
-# ─────────────────────────────────────────────
-#  SERVER CONFIGURATION
-# ─────────────────────────────────────────────
-HOST = '127.0.0.1'   # localhost (loopback IP)
-PORT = 12345         # server listens on this port
 
-# Store all connected clients: { socket: username }
+HOST = '127.0.0.1'  
+PORT = 12345         
+
+
 clients = {}
-lock = threading.Lock()  # thread-safe access to clients dict
+lock = threading.Lock()  
 
 
 def broadcast(message, sender_socket=None):
@@ -44,7 +31,7 @@ def handle_client(client_socket, address):
     """
     print(f"[NEW CONNECTION] {address} connected.")
 
-    # Ask client for their username
+    
     client_socket.send("Enter your username: ".encode('utf-8'))
     username = client_socket.recv(1024).decode('utf-8').strip()
 
@@ -56,7 +43,7 @@ def handle_client(client_socket, address):
     broadcast(join_msg, sender_socket=client_socket)
     client_socket.send(f"[SERVER] Welcome {username}! You are connected.\n".encode('utf-8'))
 
-    # Main loop: receive and broadcast messages
+    
     while True:
         try:
             message = client_socket.recv(1024).decode('utf-8')
@@ -71,7 +58,7 @@ def handle_client(client_socket, address):
             print(f"[ERROR] {e}")
             break
 
-    # Client disconnected
+    
     with lock:
         if client_socket in clients:
             del clients[client_socket]
@@ -83,10 +70,10 @@ def handle_client(client_socket, address):
 
 def start_server():
     """Start the TCP server and listen for incoming connections."""
-    # AF_INET = IPv4, SOCK_STREAM = TCP
+   
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    # SO_REUSEADDR allows reuse of port immediately after restart
+    
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
     server_socket.bind((HOST, PORT))   # Bind to IP and port
@@ -100,10 +87,10 @@ def start_server():
 
     try:
         while True:
-            # TCP 3-Way Handshake happens here (accept() completes it)
+            
             client_socket, address = server_socket.accept()
 
-            # Spawn a new thread for each client
+           
             thread = threading.Thread(target=handle_client, args=(client_socket, address))
             thread.daemon = True
             thread.start()
