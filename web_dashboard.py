@@ -161,7 +161,7 @@ HTML_TEMPLATE = """
         function setUser(user) {
             currentUser = user;
             document.getElementById('btnArya').classList.toggle('active', user === 'Arya');
-            document.getElementById('btnLux').classList.toggle('active', user === 'lux_123');
+            document.getElementById('btnLux').classList.toggle('active', user === 'Lakshita');
         }
 
         function updateChat() {
@@ -204,6 +204,6 @@ HTML_TEMPLATE = """
 
 if __name__ == '__main__':
     print("="*50)
-    print(f"🚀 Arya's Hub Running: http://127.0.0.1:{WEB_PORT}")
+    print(f"Hub Running: http://127.0.0.1:{WEB_PORT}")
     print("="*50)
     HTTPServer(('0.0.0.0', WEB_PORT), DashboardHandler).serve_forever()
